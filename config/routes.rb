@@ -1,12 +1,25 @@
 Makeitsnappy::Application.routes.draw do
+     
   root to: 'questions#index'
+
+  resources :users, only: [:new, :create]
+  resources :sessions, only: [:new, :create]
+  resources :questions, except: [:new] do 
+    resources :answers, only: [:create]
+  end
+
+  match '/register', to: 'users#new'
+  match '/login', to: 'sessions#new'
+  match '/logout', to: 'sessions#destroy', via: :delete
+  match '/your_questions', to: 'questions#your_questions'
+  match '/search', to: 'questions#search'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
-  # Keep in mind you can assign values other than :controller and :action
+  # Keep in mind you can assign values other than :controller and :ac tion
 
   # Sample of named route:
   #   match 'products/:id/purchase' => 'catalog#purchase', :as => :purchase
